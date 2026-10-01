@@ -1,0 +1,58 @@
+/*
+ * App Global CSS - SIMOBILE (Toko Makmur Jaya)
+ */
+
+/* Core CSS required for Ionic components to work properly */
+@import "@ionic/angular/css/core.css";
+
+/* Basic CSS for apps built with Ionic */
+@import "@ionic/angular/css/normalize.css";
+@import "@ionic/angular/css/structure.css";
+@import "@ionic/angular/css/typography.css";
+@import "@ionic/angular/css/display.css";
+
+/* Optional CSS utils */
+@import "@ionic/angular/css/padding.css";
+@import "@ionic/angular/css/float-elements.css";
+@import "@ionic/angular/css/text-alignment.css";
+@import "@ionic/angular/css/text-transformation.css";
+@import "@ionic/angular/css/flex-utils.css";
+
+/**
+ * Ionic Dark Mode support via class toggle .ion-palette-dark
+ */
+@import "@ionic/angular/css/palettes/dark.class.css";
+
+/* Custom utility styles */
+.brand-title {
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.text-price {
+  font-weight: 700;
+  color: var(--ion-color-primary);
+}
+
+.text-profit {
+  font-weight: 600;
+  color: var(--ion-color-success);
+}
+
+.badge-stock {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+/* Animasi pulse lembut untuk badge keranjang */
+@keyframes cartPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+.cart-pulse {
+  animation: cartPulse 0.3s ease-in-out;
+}

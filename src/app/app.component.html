@@ -1,0 +1,65 @@
+<ion-app>
+  <!-- Side Menu / Drawer (Menu Geser dari Samping) -->
+  <!-- Dibungkus oleh Drawer/Side Menu berisi menu tambahan -->
+  <ion-menu contentId="main-content" type="overlay">
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>SIMOBILE</ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content>
+      <!-- Header Profil Toko Makmur Jaya di Drawer -->
+      <div class="ion-padding" style="border-bottom: 1px solid var(--ion-color-light-shade); background: var(--ion-color);">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <ion-avatar style="width: 50px; height: 50px; border: 2px solid var(--ion-color-primary);">
+            <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=150&q=80" alt="Toko Makmur Jaya" />
+          </ion-avatar>
+          <div>
+            <h3 style="margin: 0; font-size: 1rem; font-weight: 700; color: var(--ion-color-primary);">Toko Makmur Jaya</h3>
+            <p style="margin: 2px 0 0; font-size: 0.8rem; color: var(--ion-color-medium);">Kasir Kelontong Bu Marni</p>
+          </div>
+        </div>
+      </div>
+
+      <ion-list lines="none">
+
+        <ion-menu-toggle auto-hide="true">
+          <ion-item routerLink="/tabs/dashboard" routerDirection="root">
+            <ion-icon slot="start" name="grid-outline" color="primary"></ion-icon>
+            <ion-label>Dashboard</ion-label>
+          </ion-item>
+
+          <ion-item routerLink="/tabs/produk" routerDirection="root">
+            <ion-icon slot="start" name="cube-outline" color="primary"></ion-icon>
+            <ion-label>Katalog Produk</ion-label>
+          </ion-item>
+
+          <ion-item routerLink="/tabs/transaksi" routerDirection="root">
+            <ion-icon slot="start" name="receipt-outline" color="primary"></ion-icon>
+            <ion-label>Riwayat Transaksi</ion-label>
+          </ion-item>
+
+          <ion-item routerLink="/tabs/profil" routerDirection="root">
+            <ion-icon slot="start" name="person-outline" color="primary"></ion-icon>
+            <ion-label>Profil Toko</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+        <ion-menu-toggle auto-hide="true">
+          <ion-item routerLink="/pengaturan">
+            <ion-icon slot="start" name="settings-outline" color="secondary"></ion-icon>
+            <ion-label>Pengaturan & Mode Gelap</ion-label>
+          </ion-item>
+
+          <ion-item routerLink="/tentang">
+            <ion-icon slot="start" name="information-circle-outline" color="secondary"></ion-icon>
+            <ion-label>Tentang Aplikasi</ion-label>
+          </ion-item>
+        </ion-menu-toggle>
+      </ion-list>
+    </ion-content>
+  </ion-menu>
+
+  <!-- Konten Utama Aplikasi -->
+  <ion-router-outlet id="main-content"></ion-router-outlet>
+</ion-app>
