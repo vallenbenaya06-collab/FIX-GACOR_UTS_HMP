@@ -1,0 +1,168 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>SIMOBILE</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/keranjang">
+        <ion-icon slot="icon-only" name="cart-outline" size="large"></ion-icon>
+        <ion-badge color="warning" *ngIf="totalCartItems > 0" style="position: absolute; top: 10px; right: 10px; font-size: 0.7rem;">
+          {{ totalCartItems }}
+        </ion-badge>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <!-- Kartu Ucapan Selamat Datang Bu Marni & Animasi -->
+  <ion-card id="dashboardHeaderCard" color="primary" style="margin: 0 0 16px 0; border-radius: 14px;">
+    <ion-card-header>
+      <ion-card-subtitle style="color: var(--ion-color-secondary); font-weight: 600;">
+        {{ today_ind() }}
+      </ion-card-subtitle>
+      <ion-card-title style="font-size: 1.4rem; font-weight: 700;">
+        Selamat Datang, Bu Marni!
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content style="font-size: 0.95rem; opacity: 0.95;">
+      Kelontong <strong>Toko Makmur Jaya</strong> siap melayani pembeli. Berikut adalah ringkasan performa toko hari ini:
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Ringkasan Hari Ini dengan Interpolation Binding {{ }} -->
+  <ion-text color="dark">
+    <h3 style="font-weight: 700; margin: 16px 0 10px 4px; display: flex; align-items: center; gap: 6px;">
+      <ion-icon name="stats-chart" color="primary"></ion-icon>
+      Ringkasan Toko Hari Ini
+    </h3>
+  </ion-text>
+
+  <ion-grid style="padding: 0;">
+    <ion-row>
+      <!-- Kartu 1: Jumlah Produk -->
+      <ion-col size="6">
+        <ion-card style="margin: 4px; height: 100%; border-radius: 12px;">
+          <ion-card-header style="padding: 12px 12px 4px;">
+            <ion-card-subtitle style="font-size: 0.75rem;">Total Produk</ion-card-subtitle>
+            <ion-card-title style="font-size: 1.25rem; font-weight: bold; color: var(--ion-color-primary);">
+              {{ totalProduk }} Macam
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content style="padding: 0 12px 12px; font-size: 0.8rem; color: var(--ion-color-medium);">
+            Tersimpan di katalog
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <!-- Kartu 2: Total Transaksi Hari Ini -->
+      <ion-col size="6">
+          <ion-card style="margin: 4px; height: 100%; border-radius: 12px;">
+            <ion-card-header style="padding: 12px 12px 4px;">
+            <ion-card-subtitle style="font-size: 0.75rem;">Transaksi Hari Ini</ion-card-subtitle>
+            <ion-card-title style="font-size: 1.25rem; font-weight: bold; color: var(--ion-color-tertiary);">
+              {{ totalTransaksiHariIni.count }} Nota
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content style="padding: 0 12px 12px; font-size: 0.8rem; font-weight: 600; color: var(--ion-color-dark);">
+            {{ formatRupiah(totalTransaksiHariIni.totalRupiah) }}
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <!-- Kartu 3: Produk Terlaris -->
+      <ion-col size="12">
+        <ion-card style="margin: 4px; border-radius: 12px;">
+          <ion-card-header style="padding: 12px 12px 6px;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <ion-card-subtitle style="font-size: 0.8rem; font-weight: 700; color: var(--ion-color-primary);">
+               PRODUK PALING LAKU
+              </ion-card-subtitle>
+              <ion-badge color="secondary" *ngIf="produkTerlaris">
+                {{ produkTerlaris.totalTerjual }} unit terjual
+              </ion-badge>
+            </div>
+            <ion-card-title style="font-size: 1.15rem; font-weight: bold; margin-top: 4px;">
+              {{ produkTerlaris ? produkTerlaris.nama : 'Belum ada data penjualan' }}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content style="padding: 0 12px 12px; font-size: 0.85rem; color: var(--ion-color-medium);">
+            Dihitung otomatis dari akumulasi seluruh nota kasir.
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Menu Aksi Cepat untuk Bu Marni -->
+  <ion-text color="dark">
+    <h3 style="font-weight: 700; margin: 20px 0 10px 4px; display: flex; align-items: center; gap: 6px;">
+      <ion-icon name="flash" color="secondary"></ion-icon>
+      Aksi Cepat
+    </h3>
+  </ion-text>
+
+  <ion-grid style="padding: 0;">
+    <ion-row>
+      <ion-col size="6">
+        <ion-button expand="block" color="primary" routerLink="/tabs/produk" shape="round">
+          <ion-icon slot="start" name="cube"></ion-icon>
+          Katalog
+        </ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button expand="block" color="secondary" routerLink="/tambah-produk" shape="round">
+          <ion-icon slot="start" name="add-circle"></ion-icon>
+          Tambah Barang
+        </ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button expand="block" color="tertiary" routerLink="/keranjang" shape="round">
+          <ion-icon slot="start" name="cart"></ion-icon>
+          Kasir / Keranjang
+        </ion-button>
+      </ion-col>
+      <ion-col size="6">
+        <ion-button expand="block" fill="outline" color="primary" routerLink="/tabs/transaksi" shape="round">
+          <ion-icon slot="start" name="receipt"></ion-icon>
+          Riwayat Nota
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Peringatan Stok Kritis (Membantu Bu Marni tidak kehabisan barang) -->
+  <ion-text color="dark">
+    <h3 style="font-weight: 700; margin: 20px 0 10px 4px; display: flex; align-items: center; gap: 6px;">
+      <ion-icon name="alert-circle" color="warning"></ion-icon>
+      Peringatan Stok Menipis & Habis
+    </h3>
+  </ion-text>
+
+  <ion-list lines="full" style="border-radius: 12px; overflow: hidden;" *ngIf="criticalStockProducts.length > 0">
+    <ion-item *ngFor="let item of criticalStockProducts" [routerLink]="['/detail-produk', item.id]" button detail="true">
+      <ion-avatar slot="start" style="width: 42px; height: 42px;">
+        <img [src]="item.foto || productService.DEFAULT_IMAGE" [alt]="item.nama" />
+      </ion-avatar>
+      <ion-label>
+        <h4 style="font-weight: 600;">{{ item.nama }}</h4>
+        <p>Harga Jual: {{ formatRupiah(item.hargaJual) }}</p>
+      </ion-label>
+      <ion-badge slot="end" [color]="item.stok === 0 ? 'danger' : 'warning'">
+        {{ item.stok === 0 ? 'HABIS' : 'Sisa ' + item.stok }}
+      </ion-badge>
+    </ion-item>
+  </ion-list>
+
+  <ion-card *ngIf="criticalStockProducts.length === 0" color="light" style="border-radius: 12px; margin: 0;">
+    <ion-card-content style="text-align: center;">
+      <ion-icon name="checkmark-circle" color="success" style="font-size: 2rem;"></ion-icon>
+      <p style="margin: 6px 0 0; font-weight: 600;">Semua stok barang dalam kondisi aman!</p>
+    </ion-card-content>
+  </ion-card>
+
+  <div style="height: 24px;"></div>
+</ion-content>
