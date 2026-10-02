@@ -1,0 +1,151 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/produk"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detail Produk</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/keranjang">
+        <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
+        <ion-badge color="danger" *ngIf="totalCartItems > 0" style="position: absolute; top: 4px; right: 2px; font-size: 0.7rem;">
+          {{ totalCartItems }}
+        </ion-badge>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding" *ngIf="product">
+  <!-- Gambar Produk dengan Animasi & Property Binding Fallback -->
+  <div style="width: 100%; height: 230px; border-radius: 14px; overflow: hidden; background: #eee; position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.12);">
+    <img 
+      id="detailProductImage"
+      [src]="product.foto || defaultImage" 
+      [alt]="product.nama" 
+      style="width: 100%; height: 100%; object-fit: cover;" />
+    
+    <div *ngIf="!product.foto" style="position: absolute; bottom: 8px; right: 8px; background: rgba(0,0,0,0.6); color: #fff; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem;">
+      Foto Default (Belum Ada Foto)
+    </div>
+  </div>
+
+  <!-- Header Nama & Kategori -->
+  <div style="margin-top: 16px;">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 8px;">
+      <div>
+        <ion-badge color="secondary" style="font-size: 0.75rem; margin-bottom: 4px;">
+          {{ product.kategori }}
+        </ion-badge>
+        <h1 style="margin: 0; font-size: 1.4rem; font-weight: 800; color: var(--ion-color-dark);">
+          {{ product.nama }}
+        </h1>
+      </div>
+      
+      <!-- Badge Stok -->
+      <ion-badge [color]="product.stok > 0 ? (product.stok <= 5 ? 'warning' : 'success') : 'danger'" style="font-size: 0.85rem; padding: 6px 10px;">
+        {{ product.stok > 0 ? 'Stok: ' + product.stok : 'STOK HABIS' }}
+      </ion-badge>
+    </div>
+  </div>
+
+  <!-- Rincian Harga Beli, Harga Jual, dan Kalkulasi Untung Sesuai Permintaan Bu Marni -->
+  <ion-card style="margin: 16px 0 0 0; border-radius: 12px;">
+    <ion-card-header style="padding: 12px 14px 6px;">
+      <ion-card-subtitle style="font-weight: 700; color: var(--ion-color-primary);">
+        RINCIAN FINANSIAL & KEUNTUNGAN
+      </ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content style="padding: 0 14px 14px;">
+      <ion-list lines="full">
+        <ion-item style="--padding-start: 0;">
+          <ion-label>Harga Beli (Modal)</ion-label>
+          <ion-note slot="end" style="font-size: 1rem; font-weight: 600;">
+            {{ formatRupiah(product.hargaBeli) }}
+          </ion-note>
+        </ion-item>
+
+        <ion-item style="--padding-start: 0;">
+          <ion-label>Harga Jual ke Pembeli</ion-label>
+          <ion-note slot="end" color="primary" style="font-size: 1.15rem; font-weight: 700;">
+            {{ formatRupiah(product.hargaJual) }}
+          </ion-note>
+        </ion-item>
+
+        <ion-item style="--padding-start: 0;">
+          <ion-label>
+            <strong>Estimasi Untung / Pcs</strong>
+            <p style="font-size: 0.75rem; color: var(--ion-color-medium);">Selisih harga jual - harga beli</p>
+          </ion-label>
+          <ion-badge slot="end" color="success" style="font-size: 0.95rem; padding: 6px 8px;">
+            +{{ formatRupiah(profitPerUnit) }} ({{ profitMarginPercent }}%)
+          </ion-badge>
+        </ion-item>
+
+        <ion-item style="--padding-start: 0;" lines="none" *ngIf="product.stok > 0">
+          <ion-label>
+            <strong>Potensi Laba Stok Tersedia</strong>
+            <p style="font-size: 0.75rem; color: var(--ion-color-medium);">Jika seluruh sisa {{ product.stok }} terjual</p>
+          </ion-label>
+          <ion-note slot="end" color="success" style="font-size: 1rem; font-weight: 700;">
+            {{ formatRupiah(totalPotentialProfit) }}
+          </ion-note>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Deskripsi Produk -->
+  <ion-card style="margin: 14px 0 0 0; border-radius: 12px;">
+    <ion-card-header style="padding: 12px 14px 4px;">
+      <ion-card-subtitle style="font-weight: 600;">DESKRIPSI PRODUK</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content style="padding: 0 14px 14px; font-size: 0.9rem; line-height: 1.5; color: var(--ion-color-medium);">
+      {{ product.deskripsi || 'Tidak ada keterangan tambahan untuk produk ini.' }}
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Tombol Tambah ke Keranjang dengan Property Binding [disabled] & Event Binding (click) -->
+  <div style="margin-top: 20px;">
+    <ion-button 
+      expand="block" 
+      color="primary" 
+      size="large"
+      shape="round"
+      [disabled]="product.stok <= 0" 
+      (click)="addToCart()">
+      <ion-icon slot="start" name="cart"></ion-icon>
+      {{ product.stok > 0 ? '+ Tambah ke Keranjang' : 'Stok Barang Habis' }}
+    </ion-button>
+
+    <div style="display: flex; gap: 8px; margin-top: 10px;">
+      <ion-button expand="block" fill="outline" color="secondary" style="flex: 1;" (click)="goToEdit()" shape="round">
+        <ion-icon slot="start" name="create-outline"></ion-icon>
+        Edit Produk
+      </ion-button>
+      <ion-button expand="block" fill="outline" color="danger" style="flex: 1;" (click)="confirmDelete()" shape="round">
+        <ion-icon slot="start" name="trash-outline"></ion-icon>
+        Hapus
+      </ion-button>
+    </div>
+  </div>
+
+  <div style="height: 30px;"></div>
+
+  <ion-alert
+    [isOpen]="isAlertOpen"
+    [header]="alertHeader"
+    [message]="alertMessage"
+    [buttons]="alertButtons"
+    (didDismiss)="onAlertDismiss()">
+  </ion-alert>
+</ion-content>
+
+<!-- Jika ID Tidak Ditemukan -->
+<ion-content *ngIf="!product" class="ion-padding" style="text-align: center;">
+  <div style="margin-top: 80px;">
+    <ion-icon name="alert-circle-outline" color="danger" style="font-size: 4rem;"></ion-icon>
+    <h2>Produk Tidak Ditemukan</h2>
+    <p>Data barang dengan ID {{ productId }} tidak tersedia di katalog.</p>
+    <ion-button routerLink="/tabs/produk" color="primary">Kembali ke Katalog</ion-button>
+  </div>
+</ion-content>
