@@ -1,0 +1,92 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Riwayat Transaksi</ion-title>
+    <ion-buttons slot="end">
+      <ion-button routerLink="/keranjang">
+        <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <!-- Ringkasan Keseluruhan Penjualan -->
+  <ion-card style="margin: 0 0 16px 0; border-radius: 12px;">
+    <ion-card-content style="padding: 14px 16px;">
+      <ion-grid style="padding: 0;">
+        <ion-row>
+          <ion-col size="6">
+            <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.85;">Total Nota</div>
+            <div style="font-size: 1.4rem; font-weight: 800; margin-top: 2px;">{{ transactions.length }} Transaksi</div>
+          </ion-col>
+          <ion-col size="6">
+            <div style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.85;">Total Pendapatan</div>
+            <div style="font-size: 1.25rem; font-weight: 800; margin-top: 2px; color: var(--ion-color-secondary);">
+              {{ formatRupiah(totalOmzet) }}
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Daftar Transaksi yang Pernah Dilakukan -->
+  <div style="margin-bottom: 8px;">
+    <ion-text color="dark">
+      <h3 style="font-weight: 700; margin: 0 0 4px 0;">Daftar Nota Penjualan</h3>
+      <p style="margin: 0; font-size: 0.8rem; color: var(--ion-color-medium);">
+        Klik salah satu transaksi untuk melihat rincian barang yang terjual.
+      </p>
+    </ion-text>
+  </div>
+
+  <ion-list lines="none" *ngIf="transactions.length > 0" style="background: transparent;">
+    <ion-card 
+      *ngFor="let trx of transactions" 
+      (click)="goToDetail(trx.id)"
+      style="margin: 0 0 10px 0; border-radius: 12px; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.06);">
+      <ion-item button detail="true" lines="none">
+        <ion-icon slot="start" name="receipt" color="primary" style="font-size: 1.6rem;"></ion-icon>
+        <ion-label>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2px;">
+            <h3 style="font-weight: 700; margin: 0; font-size: 0.95rem;">{{ trx.id }}</h3>
+            <ion-badge color="light" style="font-size: 0.7rem; border: 1px solid #ddd;">
+              {{ trx.metodePembayaran }}
+            </ion-badge>
+          </div>
+          <p style="color: var(--ion-color-medium); font-size: 0.8rem;">
+            {{ formatDate(trx.tanggal) }}
+          </p>
+          <p style="font-size: 0.8rem; color: var(--ion-color-dark); margin-top: 2px;">
+            {{ trx.items.length }} jenis barang
+          </p>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 4px;">
+            <span style="font-size: 1.05rem; font-weight: 800; color: var(--ion-color-primary);">
+              {{ formatRupiah(trx.totalBayar) }}
+            </span>
+            <ion-note color="success" style="font-size: 0.75rem; font-weight: 600;">
+              Untung: {{ formatRupiah(trx.totalUntung) }}
+            </ion-note>
+          </div>
+        </ion-label>
+      </ion-item>
+    </ion-card>
+  </ion-list>
+
+  <!-- State Belum Ada Transaksi -->
+  <div *ngIf="transactions.length === 0" style="text-align: center; margin-top: 60px;">
+    <ion-icon name="receipt-outline" color="medium" style="font-size: 4rem;"></ion-icon>
+    <h3 style="font-weight: 700; margin-top: 10px;">Belum Ada Riwayat Transaksi</h3>
+    <p style="color: var(--ion-color-medium); font-size: 0.9rem;">
+      Silakan lakukan penjualan pertama Bu Marni dari katalog barang!
+    </p>
+    <ion-button routerLink="/tabs/produk" color="primary" shape="round">
+      Buka Katalog Produk
+    </ion-button>
+  </div>
+
+  <div style="height: 30px;"></div>
+</ion-content>
