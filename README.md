@@ -14,14 +14,43 @@ Project UTS Hybrid Mobile Programming (HMP)
 
 ## Fitur Aplikasi
 
-- **Navigasi Utama (Poin 1):** 4 tab utama (Dashboard, Produk, Transaksi, Profil) yang dibungkus oleh Drawer/Side Menu (Pengaturan, Tentang Aplikasi).
-- **Dashboard Toko (Poin 2):** Ringkasan jumlah produk, total transaksi & omzet hari ini, serta produk terlaris menggunakan data binding interpolation.
-- **Pencarian Produk Real-Time (Poin 3):** Cari produk otomatis memfilter katalog saat mengetik (two-way binding [(ngModel)]) tanpa tombol submit, dilengkapi filter segment kategori.
-- **Detail Produk (Poin 4 & 5):** Navigasi via route parameter (:id), informasi stok, harga beli, harga jual, margin keuntungan, fallback gambar default jika foto kosong, dan tombol otomatis ter-disable jika stok habis.
-- **Manajemen Produk (Poin 6):** Form Tambah & Edit Produk berbasis Reactive Forms (FormGroup), validasi input, serta deteksi peringatan harga rugi (jika harga jual <= harga beli).
-- **Keranjang & Checkout Kasir (Poin 7):** Manajemen kuantitas barang, swipe-to-delete, pilihan metode pembayaran, konfirmasi transaksi, dan pemotongan stok otomatis di katalog.
-- **Riwayat Transaksi (Poin 7):** Daftar nota transaksi penjualan beserta rincian lengkap barang yang terjual.
-- **Tema & Mode Gelap (Poin 8):** Skema warna toko (Merah Marun & Kuning Emas), dukungan Dark Mode toggle di halaman Pengaturan, serta animasi custom dengan AnimationController.
+1. Halaman Dashboard (Ringkasan Harian)
+Ringkasan Penjualan: Saat aplikasi dibuka, dashboard langsung menampilkan metrik utama hari ini: jumlah total jenis produk, total transaksi yang berhasil, omzet pendapatan kotor, serta produk yang paling laris terjual.
+Peringatan Stok Menipis: Kartu peringatan otomatis muncul jika terdapat produk dengan sisa stok kurang dari atau sama dengan 5 unit, atau jika stok telah habis (0 unit), sebagai pengingat untuk segera melakukan pengadaan ulang barang.
+2. Halaman Katalog Produk (Pencarian dan Belanja)
+Pencarian Real-Time: Masukkan nama produk pada kolom searchbar. Daftar produk akan langsung terfilter secara otomatis saat pengetikan berlangsung tanpa perlu menekan tombol cari.
+Filter Kategori: Gunakan tombol segmen di bagian atas untuk menyaring produk berdasarkan kategori (Sembako, Minuman, Makanan Ringan, Kebersihan, Bumbu Dapur, atau Lainnya).
+Penambahan ke Keranjang Kasir:
+Tekan tombol "+ Keranjang" pada item yang ingin ditambahkan ke transaksi pelanggan.
+Jika stok barang bernilai 0, tombol secara otomatis dinonaktifkan (disabled) dengan label "Stok Habis" untuk mencegah penjualan barang yang tidak tersedia.
+Navigasi Detail: Klik kartu produk untuk membuka rincian lengkap barang tersebut.
+3. Halaman Detail Produk dan Analisis Laba
+Informasi Produk: Menampilkan foto produk, nama, kategori, harga modal beli, harga jual, dan sisa stok. Jika produk belum memiliki foto, sistem menampilkan gambar default secara otomatis.
+Kalkulasi Keuntungan: Sistem menghitung nominal keuntungan per unit serta persentase margin laba untuk memudahkan penentuan strategi harga jual.
+Tindakan Produk: Tersedia tombol untuk menuju form Edit Produk, tombol Hapus Produk dengan dialog konfirmasi, dan tombol penambahan langsung ke keranjang.
+4. Halaman Tambah dan Edit Produk (Reactive Forms)
+Menambah Produk Baru: Klik tombol tambah (+) melayang di sudut kanan bawah halaman katalog produk.
+Validasi Formulir:
+Nama barang wajib diisi minimal 3 karakter.
+Harga beli, harga jual, dan stok wajib berupa angka valid lebih dari 0.
+Jika terjadi kesalahan input, pesan peringatan akan muncul tepat di bawah kolom terkait tanpa menghapus data isian yang sudah benar.
+Peringatan Potensi Kerugian: Sistem otomatis memberikan peringatan jika nilai harga jual lebih rendah atau sama dengan harga beli/modal.
+5. Halaman Keranjang Belanja dan Checkout Kasir
+Akses Keranjang: Klik ikon keranjang pada header di sudut kanan atas halaman katalog.
+Pengaturan Kuantitas: Gunakan tombol plus (+) dan minus (-) untuk mengubah jumlah barang belanjaan. Kuantitas dibatasi maksimal sesuai ketersediaan stok aktual.
+Hapus Item (Swipe-to-Delete): Geser baris barang ke arah kiri untuk menampilkan opsi hapus cepat.
+Pembayaran:
+Pilih metode transaksi: Tunai (Cash), QRIS / E-Wallet, atau Transfer Bank.
+Kolom catatan transaksi dapat diisi secara opsional (nama pelanggan atau keterangan khusus).
+Konfirmasi Transaksi: Tekan tombol "Konfirmasi Transaksi". Sistem akan secara otomatis mengurangi stok produk di katalog, mengosongkan keranjang, dan mencatat transaksi ke riwayat toko.
+6. Halaman Riwayat Transaksi dan Rincian Nota
+Daftar Penjualan: Buka tab Transaksi pada bilah navigasi bawah untuk melihat riwayat seluruh nota penjualan lengkap dengan nomor nota, tanggal, metode pembayaran, dan nominal belanja.
+Rincian Nota: Klik pada salah satu nota untuk menampilkan rincian barang yang terjual, kuantitas per item, subtotal, dan keuntungan dari transaksi tersebut.
+7. Menu Samping (Drawer) dan Pengaturan Mode Gelap
+Membuka Menu: Geser layar dari sisi kiri ke kanan atau klik ikon menu tiga garis pada sudut kiri atas layar.
+Mode Gelap (Dark Mode): Buka menu Pengaturan, kemudian aktifkan tombol saklar Mode Gelap. Seluruh antarmuka aplikasi akan beralih ke palet warna gelap untuk kenyamanan penggunaan pada kondisi pencahayaan rendah.
+8. Design dengan warna tidak standar ionic dengan palette warna kuning dan merah, serta menambahkan 2 animasi, yaitu pada bagian menu awal pada kartu ucapan Bu Marni, dan juga gambar pada detail product.
+9. Navigasi bar yang sudah terdiri dari 4 tab, yaitu Dashboard, Produk, Transaksi, Profil dengan pemecahan service menjadi 3 file services, yaitu ProductService, CartService, TransactionService.
 
 ## Cara Menjalankan
 
