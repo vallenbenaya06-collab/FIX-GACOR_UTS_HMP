@@ -1,0 +1,23 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Pengaturan</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <!-- Pengaturan Tema & Dark Mode -->
+
+  <ion-list lines="full" style="border-radius: 12px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+    <ion-item>
+      <ion-icon slot="start" [name]="isDarkMode ? 'moon' : 'sunny'" [color]="isDarkMode ? 'warning' : 'primary'"></ion-icon>
+      <ion-label>
+        <h3>Mode Gelap (Dark Mode)</h3>
+        <p>Nyaman digunakan Bu Marni atau anak di malam hari</p>
+      </ion-label>
+      <ion-toggle slot="end" [checked]="isDarkMode" (ionChange)="toggleDarkMode($event)"></ion-toggle>
+    </ion-item>
+  </ion-list>
+</ion-content>

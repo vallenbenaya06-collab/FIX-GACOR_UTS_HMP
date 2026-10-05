@@ -1,0 +1,9 @@
+ion-toggle {
+  /* Saat toggle aktif (ON) */
+  --track-background-checked: #861919;   /* Warna lintasan (misal kuning) */
+  --handle-background-checked: #e31515;  /* Warna bulatan (misal putih) */
+
+  /* Saat toggle mati (OFF) */
+  --track-background: #757575;          /* Warna lintasan abu-abu */
+  --handle-background: #ffffff;         /* Warna bulatan putih */
+}
