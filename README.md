@@ -8,9 +8,9 @@ Project UTS Hybrid Mobile Programming (HMP)
 | Nama | NRP |
 | :--- | :--- |
 | Vallen Benaya Nangoi | 160424168 |
-| Michael Jonathan Candra | 160424169 |
+| Michael Jonathan Candra | 160424183 |
 | Robert Valdino Tjahyono | 160424177 |
-| Steven Hans Fielo | 160424171 |
+| Steven Hans Fielo | 160424179 |
 
 ## Fitur Aplikasi
 
