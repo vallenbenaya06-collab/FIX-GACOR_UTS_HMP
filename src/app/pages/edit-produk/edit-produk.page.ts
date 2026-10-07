@@ -39,7 +39,7 @@ export class EditProdukPage implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private productService: ProductService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.initForm();
@@ -110,6 +110,11 @@ export class EditProdukPage implements OnInit {
     }
 
     this.checkPriceLoss();
+    if (this.isPriceLoss) {
+      this.errorHargaJual =
+        'Harga jual tidak boleh lebih kecil atau sama dengan harga beli!';
+      isValid = false;
+    }
 
     if (!isValid) {
       this.alertHeader = 'Form Belum Lengkap';
