@@ -53,6 +53,9 @@ export class DashboardPage implements OnInit {
       if (prods[i].stok <= 5) {
         critical.push(prods[i]);
       }
+      if (prods[i].stok > 5) {
+        critical.splice(i, 1);
+      }
     }
     this.criticalStockProducts = critical;
   }
