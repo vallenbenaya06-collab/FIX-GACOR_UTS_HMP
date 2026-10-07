@@ -36,7 +36,7 @@ export class TambahProdukPage implements OnInit {
     private fb: FormBuilder,
     private productService: ProductService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.initForm();
@@ -87,6 +87,11 @@ export class TambahProdukPage implements OnInit {
     }
 
     this.checkPriceLoss();
+    if (this.isPriceLoss) {
+      this.errorHargaJual =
+        'Harga jual tidak boleh lebih kecil atau sama dengan harga beli!';
+      isValid = false;
+    }
 
     if (!isValid) {
       this.alertHeader = 'Form Belum Lengkap';
